@@ -1,39 +1,68 @@
-# <h1 align="center"> Forge Template </h1>
+# Uniswap Forking Tests - 0xCairo Workshop
 
-**Template repository for getting started quickly with Foundry projects**
+This project demonstrates how to perform forking tests on Uniswap's deployed contracts using Foundry. The main focus is on testing factory contract and router interactions on the Ethereum mainnet.
 
-![Github Actions](https://github.com/foundry-rs/forge-template/workflows/CI/badge.svg)
+## Overview
 
-## Getting Started
+This project is part of the 0xCairo workshop series, specifically focusing on understanding and implementing forking tests in Foundry. We interact with deployed Uniswap contracts to perform various test cases against the live protocol.
 
-Click "Use this template" on [GitHub](https://github.com/foundry-rs/forge-template) to create a new repository with this repo as the initial state.
+## Prerequisites
 
-Or, if your repo already exists, run:
-```sh
-forge init
-forge build
-forge test
+- [Foundry](https://book.getfoundry.sh/getting-started/installation.html)
+- Basic understanding of Solidity and Uniswap V3
+- Ethereum RPC endpoint (using publicnode.com in this example)
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone <your-repo-url>
+cd <your-repo-name>
 ```
 
-## Writing your first test
-
-All you need is to `import forge-std/Test.sol` and then inherit it from your test contract. Forge-std's Test contract comes with a pre-instatiated [cheatcodes environment](https://book.getfoundry.sh/cheatcodes/), the `vm`. It also has support for [ds-test](https://book.getfoundry.sh/reference/ds-test.html)-style logs and assertions. Finally, it supports Hardhat's [console.log](https://github.com/brockelmore/forge-std/blob/master/src/console.sol). The logging functionalities require `-vvvv`.
-
-```solidity
-pragma solidity 0.8.10;
-
-import "forge-std/Test.sol";
-
-contract ContractTest is Test {
-    function testExample() public {
-        vm.roll(100);
-        console.log(1);
-        emit log("hi");
-        assertTrue(true);
-    }
-}
+2. Install dependencies:
+```bash
+forge install Uniswap/v3-periphery 
+forge install Uniswap/v3-core                                                          
+forge install OpenZeppelin/openzeppelin-contracts
 ```
 
-## Development
+## Project Structure
 
-This project uses [Foundry](https://getfoundry.sh). See the [book](https://book.getfoundry.sh/getting-started/installation.html) for instructions on how to install and use Foundry.
+```
+├── src/
+│   └── (your contract files)
+├── test/
+│   └── (your test files)
+├── lib/
+│   ├── v3-periphery/
+│   ├── v3-core/
+│   └── openzeppelin-contracts/
+└── ...
+```
+
+## Running Tests
+
+To run the forking tests, use the following command:
+
+```bash
+forge test --fork-url https://ethereum-rpc.publicnode.com --fork-block-number 20979202
+```
+
+This command:
+- Creates a fork of Ethereum mainnet at block 20979202
+- Uses publicnode.com as the RPC provider
+- Runs all test cases against the forked state
+
+## Test Cases
+
+The test suite includes various scenarios for interacting with Uniswap's:
+- Factory Contract
+- Router Contract
+
+## Important Contracts
+
+Key Uniswap V3 contracts that we interact with:
+- Factory: [0x1F98431c8aD98523631AE4a59f267346ea31F984](https://etherscan.io/address/0x1F98431c8aD98523631AE4a59f267346ea31F984)
+- Router: [0xE592427A0AEce92De3Edee1F18E0157C05861564](https://etherscan.io/address/0xE592427A0AEce92De3Edee1F18E0157C05861564)
+
